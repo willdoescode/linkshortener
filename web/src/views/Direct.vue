@@ -1,16 +1,23 @@
 <template>
   <div class="direct">
-    <h1>Hello</h1>
+    <h1>{{ text }}</h1>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-
 export default {
   name: "Direct",
   async mounted() {
-    window.location.href = await this.GetUrl();
+    if ((await this.GetUrl()) !== undefined) {
+      window.location.href = await this.GetUrl();
+    } else {
+      this.text = "No link is associated with that id.";
+    }
+  },
+  data() {
+    return {
+      text: "Redirecting you now"
+    };
   },
   methods: {
     GetUrl() {

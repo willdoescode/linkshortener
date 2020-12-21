@@ -78,12 +78,13 @@ export default {
           id: id,
           url: this.url
         })
-      }).then(response => {
-        console.log(response);
-      });
+      })
+        .then(response => response.json())
+        .then(r => {
+          this.output = `${window.location.href}${r.id}`;
+          this.$copyText(this.output);
+        });
       e.preventDefault();
-      this.output = `${window.location.href}${id}`;
-      await this.$copyText(this.output);
     }
   }
 };
