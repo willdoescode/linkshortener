@@ -6,7 +6,7 @@
           class="form-input"
           v-model="url"
           type="text"
-          placeholder="Enter url"
+          placeholder="Enter url."
         />
       </label>
       <button class="sub" v-on:click="postId">Submit</button>
@@ -28,13 +28,13 @@
     .form-input {
       font-size: 2em;
       border: 1px solid mediumpurple;
-      padding: .6em;
+      padding: 0.6em;
       font-weight: lighter;
     }
     .sub {
       font-size: 2em;
       border: 1px solid mediumpurple;
-      padding: .6em;
+      padding: 0.6em;
       text-align: left;
       color: purple;
       font-weight: bold;
@@ -62,10 +62,14 @@ export default {
   },
   methods: {
     async postId(e) {
+      e.preventDefault();
+      this.url = this.url.trim();
+      if (this.url === "") {
+        return;
+      }
       if (!this.url.startsWith("https://") && !this.url.startsWith("http://")) {
         this.url = `https://${this.url}`;
       }
-      e.preventDefault();
       const id = nanoid(4);
       fetch("http://localhost:8080/create", {
         method: "post",
@@ -84,7 +88,6 @@ export default {
           this.output = `${window.location.href}${r.id}`;
           this.$copyText(this.output);
         });
-      e.preventDefault();
     }
   }
 };

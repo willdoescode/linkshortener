@@ -8,10 +8,12 @@
 export default {
   name: "Direct",
   async mounted() {
-    if ((await this.GetUrl()) !== undefined) {
-      window.location.href = await this.GetUrl();
+    let res = await this.GetUrl();
+    if (res !== undefined) {
+      this.text = `Redirecting you to: ${res}`;
+      window.location.href = res;
     } else {
-      this.text = "No link is associated with that id.";
+      this.text = `Could not find url associated with the id: "${this.$route.params.id}"`;
     }
   },
   data() {
