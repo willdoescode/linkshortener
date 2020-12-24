@@ -19,7 +19,6 @@ func serve() {
 	router := mux.NewRouter()
 	router.HandleFunc("/create", h.CreateShort).Methods("POST")
 	router.HandleFunc("/{id}", h.GetShortUrl).Methods("GET")
-	handler := cors.New(CorsOptions).Handler(router)
 
-	log.Fatal(http.ListenAndServe(":8080", handler))
+	log.Fatal(http.ListenAndServe(":8080", cors.New(CorsOptions).Handler(router)))
 }
