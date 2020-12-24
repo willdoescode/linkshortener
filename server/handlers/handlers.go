@@ -40,7 +40,7 @@ func init() {
 
 func CheckError(e error) {
 	if e != nil {
-		fmt.Println(e)
+		panic(e)
 	}
 }
 
@@ -49,28 +49,23 @@ func CreateShort(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewDecoder(r.Body).Decode(&url)
 	color.Red(fmt.Sprintf("POST: %v", url))
 	id, err := rdb.Get(ctx, url.Url).Result()
+	w.Header().Set("Content-type", "application/json")
 	if err == redis.Nil {
 		Collection.InsertOne(context.TODO(), url)
 		err := rdb.Set(ctx, url.Url, url.Id, 0).Err()
-		if err != nil {
-			panic(err)
-		}
-		w.Header().Set("Content-type", "application/json")
+		CheckError(err)
 		w.WriteHeader(http.StatusOK)
-		u := Url{
+		j, _ := json.Marshal(Url{
 			Id:  url.Id,
 			Url: "",
-		}
-		j, _ := json.Marshal(u)
+		})
 		w.Write(j)
 	} else {
-		w.Header().Set("Content-type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		u := Url{
+		j, _ := json.Marshal(Url{
 			Id:  id,
 			Url: "",
-		}
-		j, _ := json.Marshal(u)
+		})
 		w.Write(j)
 	}
 }
