@@ -23,7 +23,7 @@ type Url struct {
 var (
 	ClientOptions = options.Client().ApplyURI("mongodb://localhost:27017")
 	Client, e     = mongo.Connect(context.TODO(), ClientOptions)
-	Collection    = Client.Database("test").Collection("urls")
+	Collection    = Client.Database("linkshort").Collection("urls")
 	ctx           = context.Background()
 	rdb           = redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",

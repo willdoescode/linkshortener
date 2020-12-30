@@ -71,7 +71,7 @@ export default {
         this.url = `https://${this.url}`;
       }
       const id = nanoid(4);
-      fetch("http://localhost:8080/create", {
+      fetch("http://localhost:7000/create", {
         method: "post",
         headers: {
           Accept: "application/json",

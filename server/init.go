@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	h "main/handlers"
 	"net/http"
@@ -11,14 +12,14 @@ import (
 
 var (
 	CorsOptions = cors.Options{
-		AllowedOrigins: []string{"http://localhost:8081"},
+		AllowedOrigins: []string{"http://localhost:8080"},
 	}
 )
 
-func serve() {
+func serve(port int) {
 	router := mux.NewRouter()
 	router.HandleFunc("/create", h.CreateShort).Methods("POST")
 	router.HandleFunc("/{id}", h.GetShortUrl).Methods("GET")
 
-	log.Fatal(http.ListenAndServe(":8080", cors.New(CorsOptions).Handler(router)))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), cors.New(CorsOptions).Handler(router)))
 }

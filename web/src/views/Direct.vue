@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     GetUrl() {
-      return fetch(`http://localhost:8080/${this.$route.params.id}`)
+      return fetch(`http://localhost:7000/${this.$route.params.id}`)
         .then(data => data.json())
         .then(r => r.url);
     }
