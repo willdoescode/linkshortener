@@ -51,7 +51,7 @@ func CreateShort(w http.ResponseWriter, r *http.Request) {
 	id, err := rdb.Get(ctx, url.Url).Result()
 	w.Header().Set("Content-type", "application/json")
 	if err == redis.Nil {
-		Collection.InsertOne(context.TODO(), url)
+		_, _ = Collection.InsertOne(context.TODO(), url)
 		err := rdb.Set(ctx, url.Url, url.Id, 0).Err()
 		CheckError(err)
 		w.WriteHeader(http.StatusOK)
@@ -59,14 +59,14 @@ func CreateShort(w http.ResponseWriter, r *http.Request) {
 			Id:  url.Id,
 			Url: "",
 		})
-		w.Write(j)
+		_, _ = w.Write(j)
 	} else {
 		w.WriteHeader(http.StatusOK)
 		j, _ := json.Marshal(Url{
 			Id:  id,
 			Url: "",
 		})
-		w.Write(j)
+		_, _ = w.Write(j)
 	}
 }
 
@@ -77,5 +77,5 @@ func GetShortUrl(w http.ResponseWriter, r *http.Request) {
 	color.Green(fmt.Sprintf("GET:  %v", res))
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write(j)
+	_, _ = w.Write(j)
 }
